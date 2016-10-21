@@ -1,0 +1,26 @@
+<center>
+<h1>Edit Your Profile: <%= @user.first_name %> <%= @user.last_name %>!</h1>
+
+<a href="/events">Events Dashboard</a><br>
+
+<form action="/users/<%= @user.id %>" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<input type="hidden" name="_method" value="put">
+	<label>First Name:</label>
+	<input type="text" name="user[first_name]"><br>
+	<label>Last Name:</label>
+	<input type="text" name="user[last_name]"><br>
+	<label>Email:</label>
+	<input type="text" name="user[email]"><br>
+	<label>Location:</label>
+	<input type="text" name="user[location]">
+	<select name="user[state]">
+		<option>WA</option>
+		<option>OR</option>
+		<option>CA</option>
+		<option>NY</option>
+		<option>MA</option>
+	</select><br>
+	<input type="submit" value="Update Records">
+</form>
+

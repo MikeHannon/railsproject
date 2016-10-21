@@ -1,0 +1,46 @@
+<center>
+<a href="/events">Events Dashboard</a>
+<h1>Event Name: <%= @event.name %></h1>
+<h3>Host:  <%= @event.user.first_name %></h3>
+<h3>Date: <%= @event.date %></h3>
+<h3>Location: <%= @event.location %>, <%= @event.state %></h3>
+<h3>People Who Are Joining The Event: <%= @event.attendees.count %></h3>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Location</th>
+		<th>State</th>
+	</tr>
+	<% @attendance.each do |p| %>
+		<tr>
+			<td><%= p.first_name %></td>
+			<td><%= p.location %></td>
+			<td><%= p.state %></td>
+		</tr>
+	<% end %>
+</table>
+
+<hr>
+<h3>Discussion About This Event:</h3>
+	<% @event.comments.each do |c| %>
+		<%= c.content %>
+		<%= c.user.first_name %>
+		<%= c.event.name %>
+	<% end %>
+<hr>
+<h4>Add Comment:</h4>
+<form action="/comments" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<input type="hidden" name="event_id" value="<%= @event.id %>">
+	<input type="text" name="content"><br><br>
+	<input type="submit" name="Submit Comment">
+</form>
+
+<% if flash && flash[:errors] %>
+  <% flash[:errors].each do |err| %>
+    <p><%= err %></p>
+  <% end %>
+<% end %>
+
+

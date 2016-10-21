@@ -1,0 +1,40 @@
+<center>
+<h1>Welcome to Belt Reviewer!</h1>
+<h3>Register:</h3>
+<form action="/users" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label>First Name:</label>
+	<input type="text" id = 'first_name' name="user[first_name]"><br>
+	<label>Last Name:</label>
+	<input type="text" id = 'last_name' name="user[last_name]"><br>
+	<label>Email:</label>
+	<input type="text" id = 'email' name="user[email]"><br>
+	<label>Location:</label>
+	<input type="text" id = 'location' name="user[location]">
+	<select id='state' name="user[state]">
+		<option>WA</option>
+		<option>CA</option>
+		<option>OR</option>
+		<option>NY</option>
+		<option>MA</option>
+	</select><br>
+	<label>Password:</label>
+	<input type="password" id = 'password' name="user[password]"><br>
+	<p>*Password should be at least 8 characters</p>
+	<label>Password Confirmation:</label>
+	<input type="password" id = 'password_confirmation' name="user[password_confirmation]"><br>
+	<br>
+	<input type="submit" value="Register">
+</form>
+<hr>
+<h3>Login:</h3>
+<form action="/sessions" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label>Email:</label>
+	<input type="text" id="email" name="email"><br>
+	<label>Password:</label>
+	<input type="password" id="password" name="password"><br>
+	<br>
+	<input type="submit" value="Log In">
+</form>
+

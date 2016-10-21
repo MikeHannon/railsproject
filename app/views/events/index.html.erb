@@ -1,0 +1,99 @@
+<center>
+<h1>Welcome <%= current_user.first_name %>!</h1> <!-- current_user is referencing the method in application controller -->
+
+<a href="/users/<%= current_user.id %>">Edit My Profile</a>
+
+<h4>Here are some events are your state:</h4>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Date</th>
+		<th>Location</th>
+		<th>Host</th>
+		<th>Action/Status</th>
+	</tr>
+	<% @my_state.each do |e| %>
+		<tr>
+			<td><a href="/events/<%= e.id %>"><%= e.name %></a></td>
+			<td><%= e.date %></td>
+			<td><%= e.location %></td>
+			<td><%= e.user.first_name %></td>
+			<td>
+				<% if e.user == current_user %>
+					<a href="/edit"></a> | 
+					<form action="/events/<%= e.id %>" method="post">
+						<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+						<input type="hidden" name="_method" value="delete">
+						<input type="submit" value="Delete">
+					</form>
+				<% else %>
+					<% if e.attending_users.include?(current_user) %>
+						<p>Joining</p>
+						<form action="/joins" method="post">
+							<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+							<input type="hidden" name="event_id" value="<%= e.id %>">
+							<input type="hidden" name="_method" value="delete">
+							<input type="submit" value="Cancel">
+						</form>
+					<% else %>
+						<form action="/joins" method="post">
+							<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+							<input type="hidden" name="event_id" value="<%= e.id %>">
+							<input type="submit" name="Join" value="Join">
+						</form>
+					<% end %>
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+</table>
+<hr>
+<h4>Here are some of the events in other States:</h4>
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Date</th>
+		<th>Location</th>
+		<th>State</th>
+		<th>Host</th>
+		<th>Action</th>
+	</tr>
+	<% @other_state.each do |o| %>
+		<tr>
+			<td><a href="/events/<%= o.id %>"><%= o.name %></a></td>
+			<td><%= o.date %></td>
+			<td><%= o.location %></td>
+			<td><%= o.state %></td>
+			<td><%= o.user.first_name %></td>
+			<td>
+				<form action="/joins" method="post">
+					<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+					<input type="hidden" name="event_id" value="<%= o.id %>">
+					<input type="submit" name="Join" value="Join">
+				</form>
+			</td>
+		</tr>
+	<% end %>
+</table>
+
+<hr>
+<h2>Add Event:</h2>
+<form action="/events" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label>Name</label>
+	<input type="text" name="name">
+	<label>Date</label>
+	<input type="date" name="date">
+	<label>Location</label>
+	<input type="text" name="location">
+	<select name="state">
+		<option>WA</option>
+		<option>CA</option>
+		<option>OR</option>
+		<option>NY</option>
+		<option>MA</option>
+	</select>
+	<input type="submit" value="Add Event">
+</form>
+
+
